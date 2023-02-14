@@ -2,24 +2,34 @@
 
 
 use Illuminate\Support\Facades\Route;
-use App\Http\Controllers\ProfileController;
-use App\Http\Controllers\AdminController;
 use App\Http\Controllers\UserController;
+use App\Http\Controllers\AdminController;
+use App\Http\Controllers\Backend\ActiveUserController;
 use App\Http\Controllers\VendorController;
-use App\Http\Controllers\Backend\BrandController;
-use App\Http\Controllers\Backend\CategoryController;
-use App\Http\Controllers\Backend\ProductController;
-use App\Http\Controllers\Backend\SliderController;
-use App\Http\Controllers\Backend\SubCategoryController;
-use App\Http\Middleware\RedirectIfAuthenticated;
-use App\Http\Controllers\Backend\VendorProductController;
-use App\Http\Controllers\Backend\BannerController;
-use App\Http\Controllers\BackEnd\CouponController;
-use App\Http\Controllers\BackEnd\ShippingAreaController;
-use App\Http\Controllers\Frontend\IndexController;
-use App\Http\Controllers\Frontend\CartController;
+use App\Http\Controllers\ProfileController;
+use App\Http\Controllers\User\StripeController;
 use App\Http\Controllers\User\CompareController;
+use App\Http\Controllers\User\AllUserController;
+use App\Http\Middleware\RedirectIfAuthenticated;
+use App\Http\Controllers\Backend\BrandController;
+use App\Http\Controllers\Frontend\CartController;
+use App\Http\Controllers\User\CheckoutController;
 use App\Http\Controllers\User\WishlistController;
+use App\Http\Controllers\Backend\BannerController;
+use App\Http\Controllers\Backend\BlogController;
+use App\Http\Controllers\BackEnd\CouponController;
+use App\Http\Controllers\Backend\SliderController;
+use App\Http\Controllers\Frontend\IndexController;
+use App\Http\Controllers\Backend\ProductController;
+use App\Http\Controllers\Backend\CategoryController;
+use App\Http\Controllers\Backend\SubCategoryController;
+use App\Http\Controllers\BackEnd\ShippingAreaController;
+use App\Http\Controllers\Backend\VendorProductController;
+use App\Http\Controllers\Backend\OrderController;
+use App\Http\Controllers\Backend\VendorOrderController;
+use App\Http\Controllers\Backend\ReturnController;
+use App\Http\Controllers\Backend\ReportController;
+use App\Http\Controllers\User\ReviewController;
 
 /*
 |--------------------------------------------------------------------------
@@ -92,8 +102,27 @@ Route::controller(VendorProductController::class)->group(function(){
     Route::get('/vendor/product/inactive/{id}' , 'VendorProductInactive')->name('vendor.product.inactive');
     Route::get('/vendor/product/active/{id}' , 'VendorProductActive')->name('vendor.product.active');
     Route::get('/vendor/delete/product/{id}','VendorDeleteProduct')->name('vendor.delete.product');
+
+    
 });
+
+// Vendor Order All Route 
+Route::controller(VendorOrderController::class)->group(function(){
+    Route::get('/vendor/order' , 'VendorOrder')->name('vendor.order');
+    Route::get('/vendor/return/order' , 'VendorReturnOrder')->name('vendor.return.order');
+    Route::get('/vendor/complete/return/order' , 'VendorCompleteReturnOrder')->name('vendor.complete.return.order');
+    Route::get('/vendor/order/details/{order_id}' , 'VendorOrderDetails')->name('vendor.order.details');
+
+
 });
+
+Route::controller(ReviewController::class)->group(function(){
+    Route::get('/vendor/all/review' , 'VendorAllReview')->name('vendor.all.review');
+   
+
+
+});
+});//End Vendor Group Middleware
 
 Route::get('/admin/login',[AdminController::class,'AdminLogin'])->name('admin.login')->middleware(RedirectIfAuthenticated::class);
 Route::get('/vendor/login',[VendorController::class,'VendorLogin'])->name('vendor.login')->middleware(RedirectIfAuthenticated::class);
@@ -220,7 +249,6 @@ Route::controller(ShippingAreaController::class)->group(function(){
 Route::controller(ShippingAreaController::class)->group(function(){
     //State all routes
     Route::get('/all/state','AllState')->name('all.state');
-   
     Route::get('/add/state','AddState')->name('add.state');
     Route::post('/store/state','StoreState')->name('store.state');
     Route::get('/edit/state/{id}','EditState')->name('edit.state');
@@ -229,6 +257,77 @@ Route::controller(ShippingAreaController::class)->group(function(){
     Route::get('/district/ajax/{division_id}','GetDistrict');
     
 });
+
+Route::controller(OrderController::class)->group(function(){
+    //order all routes
+    Route::get('/pending/order','PendingOrder')->name('pending.order');
+    Route::get('/admin/order/details/{order_id}','AdminOrderDetails')->name('admin.order.details');
+    Route::get('/admin/confirmed/order','AdminConfirmOrder')->name('admin.confirmed.order');
+    Route::get('/admin/processing/order','AdminProcessingOrder')->name('admin.processing.order');
+    Route::get('/admin/delivered/order','AdminDeliveredOrder')->name('admin.delivered.order');
+    Route::get('/pending/confirm/{order_id}' , 'PendingToConfirm')->name('pending-confirm');
+    Route::get('/confirm/processing/{order_id}' , 'ConfirmToProcess')->name('confirm-processing');
+    Route::get('/processing/delivered/{order_id}' , 'ProcessToDelivered')->name('processing-delivered');
+    Route::get('/admin/invoice/download/{order_id}' , 'AdminInvoiceDownload')->name('admin.invoice.download');
+    
+});
+
+Route::controller(ReturnController::class)->group(function(){
+    //Return Order Routes
+    Route::get('/return/request','ReturnRequest')->name('return.request');
+    Route::get('/return/request/approved/{order_id}','ReturnRequestApproved')->name('return.request.approved');
+    Route::get('/complete/return/request','CompleteReturnRequest')->name('complete.return.request');
+});
+
+
+Route::controller(ReportController::class)->group(function(){
+    //Report View  Routes
+    Route::get('/report/view','ReportView')->name('report.view');
+    Route::post('/search/by/date','SearchByDate')->name('search-by-date');
+    Route::post('/search/by/month','SearchByMonth')->name('search-by-month');
+    Route::post('/search/by/year','SearchByYear')->name('search-by-year');
+    Route::get('/order/by/user','OrderByUser')->name('order.by.user');
+    Route::post('/search/by/user','SearchByUser')->name('search-by-user');
+    
+});
+
+Route::controller(ActiveUserController::class)->group(function(){
+    //All User Routes
+    Route::get('/all/user','AllUser')->name('all-user');
+    Route::get('/all/vendor','AllVendor')->name('all-vendor');
+    });
+
+Route::controller(BlogController::class)->group(function(){
+        //All Blog category Routes
+        Route::get('/admin/blog/category','AllBlogCategory')->name('admin.blog.category');
+        Route::get('/admin/add/blog/category','AdminAddBlogCategory')->name('add.blog.category');
+        Route::post('/admin/store/blog/category','AdminStoreBlogCategory')->name('store.blog.category');
+        Route::get('/admin/edit/blog/category/{id}','AdminEditBlogCategory')->name('edit.blog.category');
+        Route::post('/admin/update/blog/category','AdminUpdateBlogCategory')->name('update.blog.category');
+        Route::get('/admin/delete/blog/category/{id}','AdminDeleteBlogCategory')->name('delete.blog.category');
+        });
+
+
+        Route::controller(BlogController::class)->group(function(){
+            //All Blog post Routes
+            Route::get('/admin/blog/post','AllBlogPost')->name('admin.blog.post');
+            Route::get('/admin/add/blog/post','AdminAddBlogPost')->name('add.blog.post');
+            Route::post('/admin/store/blog/post','AdminStoreBlogPost')->name('store.blog.post');
+            Route::get('/admin/edit/blog/post/{id}','AdminEditBlogPost')->name('edit.blog.post');
+            Route::post('/admin/update/blog/post','AdminUpdateBlogPost')->name('update.blog.post');
+            Route::get('/admin/delete/blog/post/{id}','AdminDeleteBlogPost')->name('delete.blog.post');
+            });
+
+
+            Route::controller(ReviewController::class)->group(function(){
+                Route::get('/pending/review','PendingReview')->name('pending.review');
+                Route::get('/published/review','PublishedReview')->name('published.review');
+                Route::get('/review/approve/{id}','ReviewApproved')->name('review.approve');
+                Route::get('/review/delete/{id}','ReviewDelete')->name('review.delete');
+                
+            });
+
+
 });//Admin End Middleware
 
 
@@ -264,6 +363,19 @@ Route::post('/dcart/data/store/{id}',[CartController::class,'AddToCartDetails'])
 //Add to Wishlist
 Route::post('/add-to-wishlist/{product_id}',[WishlistController::class,'AddToWishList']);
 
+//Frontend blog routes
+Route::controller(BlogController::class)->group(function(){
+    Route::get('/blog','AllBlog')->name('home.blog');
+    Route::get('post/details/{id}/{slug}','BlogDetails');
+    Route::get('post/category/{id}/{slug}','BlogPostCategory');
+});
+
+//Frontend review routes
+Route::controller(ReviewController::class)->group(function(){
+    Route::post('/store/review','StoreReview')->name('store.review');
+    
+});
+
 //User All Route
 Route::middleware(['auth','role:user'])->group(function () {
 
@@ -283,6 +395,36 @@ Route::controller(CompareController::class)->group(function(){
     
 });
 
+Route::controller(CheckoutController::class)->group(function(){
+    Route::get('/district-get/ajax/{division_id}','DistrictGetAjax');
+    Route::get('/state-get/ajax/{district_id}','StateGetAjax');
+    Route::post('/checkout/store','CheckOutStore')->name('checkout.store');
+    
+    
+});
+
+//Stripe All Route
+Route::controller(StripeController::class)->group(function(){
+    Route::post('/stripe/order','StripeOrder')->name('stripe.order');
+    Route::post('/cash/order','CashOrder')->name('cash.order');
+});
+
+//User Dashboard All Route
+Route::controller(AllUserController::class)->group(function(){
+    Route::get('/user/account/page','UserAccount')->name('user.account.page');
+    Route::get('/user/change/password','UserChangePassword')->name('user.change.password');
+    Route::get('/user/order/page','UserOrderPage')->name('user.order.page');
+    Route::get('/user/order_details/{order_id}','UserOrderDetails');
+    Route::get('/user/invoice_download/{order_id}' , 'UserOrderInvoice');  
+    Route::post('/return/order/{order_id}' , 'ReturnOrder')->name('return.order');
+    Route::get('/return/order/page' , 'ReturnOrderPage')->name('return.order.page');
+    
+});
+
+
+
+});//end user middleware
+
 //all mycart route
 Route::controller(CartController::class)->group(function(){
     Route::get('/mycart','MyCart')->name('mycart');
@@ -291,14 +433,21 @@ Route::controller(CartController::class)->group(function(){
     Route::get('/cart-decrement/{rowId}' , 'CartDecrement');
     Route::get('/cart-increment/{rowId}' , 'CartIncrement');
 });
-});
 
 //Add to compare
 Route::post('/add-to-compare/{product_id}',[CompareController::class,'AddToCompare']);
 
 
 //Frontend coupon Option
+
 Route::post('/coupon-apply',[CartController::class,'CouponApply']);
 
+//frontend coupon calculation
 Route::get('/coupon-calculation',[CartController::class,'CouponCalculation']);
+
+//frontend coupon remove
 Route::get('/coupon-remove', [CartController::class, 'CouponRemove']);
+
+//checkout page route
+
+Route::get('/checkout', [CartController::class, 'CheckoutCreate'])->name('checkout');

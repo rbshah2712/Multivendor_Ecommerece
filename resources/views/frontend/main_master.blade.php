@@ -16,10 +16,11 @@
     <link rel="shortcut icon" type="image/x-icon" href="{{asset('frontend/assets/imgs/theme/favicon.svg')}}" />
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/jqueryui/1.12.1/jquery-ui.css" type="text/css" media="all" />
     <!-- Template CSS -->
+    
     <link rel="stylesheet" href="{{asset('frontend/assets/css/plugins/animate.min.css')}}" />
     <link rel="stylesheet" href="{{asset('frontend/assets/css/main.css?v=5.6')}}" />
     <link rel="stylesheet" type="text/css" href="https://cdnjs.cloudflare.com/ajax/libs/toastr.js/latest/toastr.css" >
-    <link rel="stylesheet" type="text/css" href="https://cdnjs.cloudflare.com/ajax/libs/toastr.js/latest/toastr.css" >
+    <script src="https://js.stripe.com/v3/"></script>
     
 </head>
 
@@ -305,7 +306,7 @@
      function addToCartDetails(){
      var product_name = $('#dpname').text();  
      var id = $('#dproduct_id').val();
-   //  var vendor = $('#dpvendor_id').text();
+     var vendor = $('#dpvendor_id').text();
      var color = $('#dcolor option:selected').text();
      var size = $('#dsize option:selected').text();
      var quantity = $('#dqty').val(); 
@@ -314,7 +315,7 @@
         type: "POST",  //vendor:vendor
         dataType : 'json',
         data:{
-            color:color, size:size, quantity:quantity,product_name:product_name
+            color:color, size:size, quantity:quantity,product_name:product_name,vendor:vendor
         },
         url: "/dcart/data/store/"+id,
         success:function(data){
@@ -834,7 +835,7 @@ function cartIncrement(rowId){
             url: "/coupon-calculation",
             dataType: 'json',
             success:function(data){
-                console.log(data);
+                //console.log(data);
             if (data.total) {
                 $('#couponCalField').html(
                     ` <tr>

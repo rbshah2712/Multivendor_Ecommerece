@@ -142,7 +142,7 @@
                                         </div>
                                         <div class="shopping-cart-button">
                                             <a href="{{route('mycart')}}" class="outline">View cart</a>
-                                            <a href="shop-checkout.html">Checkout</a>
+                                            <a href="{{route('checkout')}}">Checkout</a>
                                         </div>
                                     </div>
                                 </div>
@@ -267,7 +267,7 @@
                                 </li>
                                @endforeach
                                 <li>
-                                    <a href="page-contact.html">Contact</a>
+                                    <a href="{{route('home.blog')}}">Blog</a>
                                 </li>
                             </ul>
                         </nav>

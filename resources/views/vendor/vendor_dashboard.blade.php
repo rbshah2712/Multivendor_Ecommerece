@@ -23,6 +23,7 @@
   <link href="{{asset('adminbackend/assets/css/sidebar-menu.css')}}" rel="stylesheet"/>
   <!-- Custom Style-->
   <link href="{{asset('adminbackend/assets/css/app-style.css')}}" rel="stylesheet"/>
+  <link href='https://unpkg.com/boxicons@2.1.4/css/boxicons.min.css' rel='stylesheet'>
   <link href="{{asset('adminbackend/assets/plugins/bootstrap-datatable/css/dataTables.bootstrap4.min.css')}}" rel="stylesheet" type="text/css">
   <link href="{{asset('adminbackend/assets/plugins/bootstrap-datatable/css/buttons.bootstrap4.min.css')}}" rel="stylesheet" type="text/css">
   <link rel="stylesheet" type="text/css" href="https://cdnjs.cloudflare.com/ajax/libs/toastr.js/latest/css/toastr.min.css">

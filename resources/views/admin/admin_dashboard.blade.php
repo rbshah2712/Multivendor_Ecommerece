@@ -23,6 +23,7 @@
   <link href="{{asset('adminbackend/assets/css/sidebar-menu.css')}}" rel="stylesheet"/>
   <!-- Custom Style-->
   <link href="{{asset('adminbackend/assets/css/app-style.css')}}" rel="stylesheet"/>
+  <link href='https://unpkg.com/boxicons@2.1.4/css/boxicons.min.css' rel='stylesheet'>
   <link href="{{asset('adminbackend/assets/plugins/bootstrap-datatable/css/dataTables.bootstrap4.min.css')}}" rel="stylesheet" type="text/css">
   <link href="{{asset('adminbackend/assets/plugins/bootstrap-datatable/css/buttons.bootstrap4.min.css')}}" rel="stylesheet" type="text/css">
   <link rel="stylesheet" type="text/css" href="https://cdnjs.cloudflare.com/ajax/libs/toastr.js/latest/css/toastr.min.css">
@@ -138,7 +139,107 @@
             })
         })
     });
+
+
+    $(function(){
+    $(document).on('click','#confirm', function (e) {
+            e.preventDefault();
+            let id = $(this).data('id');
+            let link = $(this).attr("href");
+            Swal.fire({
+                title: 'Are you sure to confirm?',
+                text: "You won't be able to revert this !",
+                icon: 'warning',
+                showCancelButton: true,
+                confirmButtonColor: '#3085d6',
+                cancelButtonColor: '#d33',
+                confirmButtonText: 'Yes, confirm it!'
+            }).then((result) => {
+                if (result.isConfirmed) {
+                   window.location.href = link;
+                   Swal.fire('Confirmed!','Your Order is confirmed.','success')
+                }
+            })
+        })
+    });
+
+
+    $(function(){
+    $(document).on('click','#processing', function (e) {
+            e.preventDefault();
+            let id = $(this).data('id');
+            let link = $(this).attr("href");
+            Swal.fire({
+                title: 'Are you sure to Process?',
+                text: "You won't be able to revert this !",
+                icon: 'warning',
+                showCancelButton: true,
+                confirmButtonColor: '#3085d6',
+                cancelButtonColor: '#d33',
+                confirmButtonText: 'Yes, Process it!'
+            }).then((result) => {
+                if (result.isConfirmed) {
+                   window.location.href = link;
+                   Swal.fire('Processed!','Your Order is Processed.','success')
+                }
+            })
+        })
+    });
+
+
+    $(function(){
+    $(document).on('click','#delivered', function (e) {
+            e.preventDefault();
+            let id = $(this).data('id');
+            let link = $(this).attr("href");
+            Swal.fire({
+                title: 'Are you sure to Deliver?',
+                text: "You won't be able to revert this !",
+                icon: 'warning',
+                showCancelButton: true,
+                confirmButtonColor: '#3085d6',
+                cancelButtonColor: '#d33',
+                confirmButtonText: 'Yes, Deliver it!'
+            }).then((result) => {
+                if (result.isConfirmed) {
+                   window.location.href = link;
+                   Swal.fire('Delivered!','Your Order is Delivered.','success')
+                }
+            })
+        })
+    });
+
+
+    $(function(){
+    $(document).on('click','#approved', function (e) {
+            e.preventDefault();
+            let id = $(this).data('id');
+            let link = $(this).attr("href");
+            Swal.fire({
+                title: 'Are you sure to Approve?',
+                text: "You won't be able to revert this !",
+                icon: 'warning',
+                showCancelButton: true,
+                confirmButtonColor: '#3085d6',
+                cancelButtonColor: '#d33',
+                confirmButtonText: 'Yes, Deliver it!'
+            }).then((result) => {
+                if (result.isConfirmed) {
+                   window.location.href = link;
+                   Swal.fire('Approved!','Your Return Order is Approved.','success')
+                }
+            })
+        })
+    });
       
+      </script>
+      <script src='https://cdn.tiny.cloud/1/vdqx2klew412up5bcbpwivg1th6nrh3murc6maz8bukgos4v/tinymce/5/tinymce.min.js' referrerpolicy="origin">
+      </script>
+      
+      <script>
+          tinymce.init({
+            selector: '#mytextarea'
+          });
       </script>
 </body>
 

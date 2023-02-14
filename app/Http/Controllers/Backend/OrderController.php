@@ -1,0 +1,97 @@
+<?php
+
+namespace App\Http\Controllers\Backend;
+
+use App\Models\Order;
+use App\Models\OrderItem;
+use Illuminate\Http\Request;
+use App\Http\Controllers\Controller;
+use Illuminate\Support\Facades\Auth;
+use Barryvdh\DomPDF\Facade\Pdf;
+
+class OrderController extends Controller
+{
+    public function PendingOrder(){
+
+        $orders = Order::where('status','pending')->orderBy('id','DESC')->get();
+        return view('backend.orders.pending_orders',compact('orders'));
+
+    }//End Method
+
+    public function AdminOrderDetails($order_id){
+       
+        $order = Order::with('division','district','state','user')->where('id',$order_id)->first();
+        $orderitem = OrderItem::with('product')->where('order_id',$order_id)->orderBy('id','DESC')->get();
+       
+        return view('backend.orders.admin_order_details',compact('order','orderitem'));
+    }//End Method
+
+
+    public function AdminConfirmOrder(){
+
+        $orders = Order::where('status','confirmed')->orderBy('id','DESC')->get();
+        return view('backend.orders.confirmed_orders',compact('orders'));
+
+    }//End Method
+
+    public function AdminProcessingOrder(){
+        $orders = Order::where('status','processing')->orderBy('id','DESC')->get();
+        return view('backend.orders.processing_orders',compact('orders'));
+    }//End Method
+
+    public function AdminDeliveredOrder(){
+        $orders = Order::where('status','deliverd')->orderBy('id','DESC')->get();
+        return view('backend.orders.delivered_orders',compact('orders'));
+    }//End Method
+
+    public function PendingToConfirm($order_id){
+        Order::findOrFail($order_id)->update(['status' => 'confirmed']);
+
+        $notification = array(
+            'message' => 'Order Confirm Successfully',
+            'alert-type' => 'success'
+        );
+
+        return redirect()->route('admin.confirmed.order')->with($notification); 
+
+
+    }// End Method 
+
+
+    public function ConfirmToProcess($order_id){
+        Order::findOrFail($order_id)->update(['status' => 'processing']);
+
+        $notification = array(
+            'message' => 'Order Processed Successfully',
+            'alert-type' => 'success'
+        );
+
+        return redirect()->route('admin.processing.order')->with($notification); 
+
+
+    }// End Method 
+
+
+    public function ProcessToDelivered($order_id){
+        Order::findOrFail($order_id)->update(['status' => 'deliverd']);
+
+        $notification = array(
+            'message' => 'Order Delivered Successfully',
+            'alert-type' => 'success'
+        );
+
+        return redirect()->route('admin.delivered.order')->with($notification); 
+
+
+    }// End Method 
+
+    public function AdminInvoiceDownload($order_id){
+       
+        $order = Order::with('division','district','state','user')->where('id',$order_id)->first();
+        $orderitem = OrderItem::with('product')->where('order_id',$order_id)->orderBy('id','DESC')->get();
+        
+        $pdf = Pdf::loadView('backend.orders.admin_order_invoice', compact('order','orderitem'))->setPaper('a4')->setOption(['tempDir' => public_path(), 
+        'chroot' => public_path(),]);
+        return $pdf->download('invoice.pdf');
+    }//End Method
+}

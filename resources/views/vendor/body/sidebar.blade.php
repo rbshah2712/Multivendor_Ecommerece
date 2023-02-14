@@ -37,9 +37,21 @@
          <i class="fa fa-angle-left float-right"></i>
        </a>
        <ul class="sidebar-submenu">
-         <li><a href="cards-image-cards.html"><i class="zmdi zmdi-star-outline"></i> All Orders</a></li>
+         <li><a href="{{route('vendor.order')}}"><i class="zmdi zmdi-star-outline"></i> Vendor Orders</a></li>
+         <li><a href="{{route('vendor.return.order')}}"><i class="zmdi zmdi-star-outline"></i> Return Orders</a></li>
+         <li><a href="{{route('vendor.complete.return.order')}}"><i class="zmdi zmdi-star-outline"></i> Complete Return Orders</a></li>
        </ul>
      </li>
+     <li>
+      <a href="javaScript:void();" class="waves-effect">
+        <i class="zmdi zmdi-gamepad"></i> <span>Review Manage</span>
+        <i class="fa fa-angle-left float-right"></i>
+      </a>
+      <ul class="sidebar-submenu">
+        <li><a href="{{route('vendor.all.review')}}"><i class="zmdi zmdi-star-outline"></i> All Review</a></li>
+    </li>
+  </ul>
+</li>
      @else
      
      @endif
