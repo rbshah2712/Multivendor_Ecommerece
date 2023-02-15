@@ -64,29 +64,29 @@
             </div>
         </div>
     </div>
+    @php
+    $setting = App\Models\SiteSetting::find(1);
+    $allcategories = App\Models\Category::orderBy('category_name','ASC')->latest()->get(); 
+    @endphp
     <div class="header-middle header-middle-ptb-1 d-none d-lg-block">
         <div class="container">
             <div class="header-wrap">
                 <div class="logo logo-width-1">
-                    <a href="index.html"><img src="{{asset('frontend/assets/imgs/theme/logo.svg')}}" alt="logo" /></a>
+                    <a href="{{url('/')}}"><img src="{{asset($setting->logo)}}" alt="logo" /></a>
                 </div>
                 <div class="header-right">
                     <div class="search-style-2">
-                        <form action="#">
+                        <form action="{{route('product.search')}}" method="post">
+                            @csrf
                             <select class="select-active">
                                 <option>All Categories</option>
-                                <option>Milks and Dairies</option>
-                                <option>Wines & Alcohol</option>
-                                <option>Clothing & Beauty</option>
-                                <option>Pet Foods & Toy</option>
-                                <option>Fast food</option>
-                                <option>Baking material</option>
-                                <option>Vegetables</option>
-                                <option>Fresh Seafood</option>
-                                <option>Noodles & Rice</option>
-                                <option>Ice cream</option>
+                                @foreach($allcategories as $category)
+                                
+                                <option value="{{$category->id}}">{{$category->category_name}}</option>
+                                @endforeach
                             </select>
-                            <input type="text" placeholder="Search for items..." />
+                            <input name="search" onfocus="search_result_show()" onblur="search_result_hide()" id="search" placeholder="Search for items..." />
+                            <div id="searchProducts"></div>
                         </form>
                     </div>
                     <div class="header-action-right">
@@ -275,7 +275,7 @@
                 </div>
                 <div class="hotline d-none d-lg-flex">
                     <img src="{{asset('frontend/assets/imgs/theme/icons/icon-headphone.svg')}}" alt="hotline" />
-                    <p>1900 - 888<span>24/7 Support Center</span></p>
+                    <p>{{$setting->support_phone}}<span>24/7 Support Center</span></p>
                 </div>
                 <div class="header-action-icon-2 d-block d-lg-none">
                     <div class="burger-icon burger-icon-white">
@@ -341,6 +341,27 @@
         </div>
     </div>
 </header>
+<style>
+    #searchProducts{
+        position: absolute;
+        top: 100%;
+        left: 0;
+        width: 100%;
+        background: #ffffff;
+        z-index: 999;
+        border-radius: 8px;
+        margin-top: 5px;
+    }
+</style>
+
+<script>
+    function search_result_show(){
+        $("#searchProducts").slideDown();
+    }
+    function search_result_hide(){
+        $("#searchProducts").slideUp();
+    }
+</script>
 <div class="mobile-header-active mobile-header-wrapper-style">
     <div class="mobile-header-wrapper-inner">
         <div class="mobile-header-top">

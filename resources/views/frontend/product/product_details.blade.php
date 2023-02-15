@@ -1,6 +1,5 @@
 @extends('frontend.main_master')
 @section('main')
-
 @section('title')
     {{ $product->product_name }} 
 @endsection

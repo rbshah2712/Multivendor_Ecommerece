@@ -1,7 +1,9 @@
 @extends('frontend.main_master')
 @section('main')
 @section('title')
-   Checkout Page 
+@foreach($breadcat as $cat)
+{{ $cat->blog_category_name }}
+@endforeach
 @endsection
 <div class="page-header mt-30 mb-75">
     <div class="container">

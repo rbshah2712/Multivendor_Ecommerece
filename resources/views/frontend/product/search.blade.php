@@ -1,17 +1,17 @@
 @extends('frontend.main_master')
 @section('main')
 @section('title')
-{{$breadcat->category_name}} Category | Multivendor Ecommerece System
+{{$item}} You are searching...
 @endsection
 <div class="page-header mt-30 mb-50">
     <div class="container">
         <div class="archive-header">
             <div class="row align-items-center">
                 <div class="col-xl-3">
-                    <h5 class="mb-15">{{$breadcat->category_name}}</h1>
+                    
                     <div class="breadcrumb">
                         <a href="{{url('/')}}" rel="nofollow"><i class="fi-rs-home mr-5"></i>Home</a>
-                         <span></span> {{$breadcat->category_name}}
+                         <span></span> {{$item}}
                     </div>
                 </div>
             </div>

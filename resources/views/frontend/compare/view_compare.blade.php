@@ -1,7 +1,7 @@
 @extends('frontend.main_master')
 @section('main')
 @section('title')
-   Wishlist 
+   Compare Page 
 @endsection
 <div class="page-header breadcrumb-wrap">
     <div class="container">

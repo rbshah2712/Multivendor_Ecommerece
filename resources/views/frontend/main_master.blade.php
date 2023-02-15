@@ -3,9 +3,15 @@
 
 <head>
     <meta charset="utf-8" />
-    <title>Multivendor Online Shop</title>
+    <title>@yield('title')</title>
+    @php
+        $seo = App\Models\Seo::find(1); 
+    @endphp
     <meta http-equiv="x-ua-compatible" content="ie=edge" />
-    <meta name="description" content="" />
+    <meta name="title" content="{{$seo->meta_title}}" />
+    <meta name="author" content="{{$seo->meta_author}}" />
+    <meta name="keywords" content="{{$seo->meta_keyword}}" />
+    <meta name="description" content="{{$seo->meta_description}}" />
     <meta name="csrf-token" content="{{ csrf_token() }}">
     <meta name="viewport" content="width=device-width, initial-scale=1" />
     <meta property="og:title" content="" />
@@ -69,7 +75,7 @@
     <!-- Template  JS -->
     <script src="{{asset('frontend/assets/js/main.js?v=5.6')}}"></script>
     <script src="{{asset('frontend/assets/js/shop.js?v=5.6')}}"></script>
-
+    <script src="{{asset('frontend/assets/js/script.js')}}"></script>
     
 <script src="https://cdnjs.cloudflare.com/ajax/libs/jqueryui/1.12.1/jquery-ui.min.js" type="text/javascript"></script>
 

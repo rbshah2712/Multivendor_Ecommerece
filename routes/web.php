@@ -29,6 +29,7 @@ use App\Http\Controllers\Backend\OrderController;
 use App\Http\Controllers\Backend\VendorOrderController;
 use App\Http\Controllers\Backend\ReturnController;
 use App\Http\Controllers\Backend\ReportController;
+use App\Http\Controllers\Backend\SiteSettingController;
 use App\Http\Controllers\User\ReviewController;
 
 /*
@@ -190,6 +191,7 @@ Route::controller(ProductController::class)->group(function(){
     Route::get('/product/inactive/{id}' , 'ProductInactive')->name('product.inactive');
     Route::get('/product/active/{id}' , 'ProductActive')->name('product.active');
     Route::get('/delete/product/{id}','DeleteProduct')->name('delete.product');
+    Route::get('/product/stock','ProductStock')->name('product.stock');
 });
 
 Route::controller(SliderController::class)->group(function(){
@@ -327,6 +329,15 @@ Route::controller(BlogController::class)->group(function(){
                 
             });
 
+            Route::controller(SiteSettingController::class)->group(function(){
+                Route::get('/site/settings','SiteSettings')->name('site.setting');
+                Route::post('/site/setting/update' , 'SiteSettingUpdate')->name('site.setting.update');
+                Route::get('/seo/settings','SEOSettings')->name('seo.setting');
+                Route::post('/seo/setting/update' , 'SEOSettingUpdate')->name('site.seo.update');
+               
+            });
+
+
 
 });//Admin End Middleware
 
@@ -376,6 +387,13 @@ Route::controller(ReviewController::class)->group(function(){
     
 });
 
+//search all route
+Route::controller(IndexController::class)->group(function(){
+    Route::post('/search','ProductSearch')->name('product.search');
+    Route::post('/search-product' , 'SearchProduct');
+    
+});
+
 //User All Route
 Route::middleware(['auth','role:user'])->group(function () {
 
@@ -418,7 +436,8 @@ Route::controller(AllUserController::class)->group(function(){
     Route::get('/user/invoice_download/{order_id}' , 'UserOrderInvoice');  
     Route::post('/return/order/{order_id}' , 'ReturnOrder')->name('return.order');
     Route::get('/return/order/page' , 'ReturnOrderPage')->name('return.order.page');
-    
+    Route::get('/user/track/order' , 'UserTrackOrder')->name('user.track.order');
+    Route::post('/order/tracking' , 'OrderTracking')->name('order.tracking');
 });
 
 

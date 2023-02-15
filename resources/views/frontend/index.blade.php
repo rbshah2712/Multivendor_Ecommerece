@@ -1,5 +1,8 @@
 @extends('frontend.main_master')
 @section('main')
+@section('title')
+Home | Multivendor Ecommerece System
+@endsection
 <main class="main">
     @include('frontend.home.home_slider')
     <!--End hero slider-->

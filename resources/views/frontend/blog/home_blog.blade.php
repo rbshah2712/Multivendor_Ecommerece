@@ -1,7 +1,7 @@
 @extends('frontend.main_master')
 @section('main')
 @section('title')
-   Checkout Page 
+   Blog Page 
 @endsection
 <div class="page-header mt-30 mb-75">
     <div class="container">

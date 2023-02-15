@@ -167,6 +167,26 @@
         <li><a href="{{route('published.review')}}"><i class="zmdi zmdi-star-outline"></i> Published Review</a></li>
         </ul>
       </li>
+      <li>
+        <a href="javaScript:void();" class="waves-effect">
+          <i class="zmdi zmdi-layers"></i>
+          <span>Site Manage</span> <i class="fa fa-angle-left pull-right"></i>
+        </a>
+        <ul class="sidebar-submenu">
+        <li><a href="{{route('site.setting')}}"><i class="zmdi zmdi-star-outline"></i> Site Settings</a></li>
+        <li><a href="{{route('seo.setting')}}"><i class="zmdi zmdi-star-outline"></i> SEO Settings</a></li>
+        </ul>
+      </li>
+
+      <li>
+        <a href="javaScript:void();" class="waves-effect">
+          <i class="zmdi zmdi-layers"></i>
+          <span>Stock Manage</span> <i class="fa fa-angle-left pull-right"></i>
+        </a>
+        <ul class="sidebar-submenu">
+        <li><a href="{{route('product.stock')}}"><i class="zmdi zmdi-star-outline"></i> Stock</a></li>
+        </ul>
+      </li>
       </ul>
    
    </div>

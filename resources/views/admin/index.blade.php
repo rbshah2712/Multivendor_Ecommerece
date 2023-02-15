@@ -1,5 +1,18 @@
 @extends('admin.admin_dashboard')
 @section('admin')
+
+@php
+	$date = date('d-m-y');
+	$today = App\Models\Order::where('order_date',$date)->sum('amount');
+	$month = date('F');
+	$month = App\Models\Order::where('order_month',$month)->sum('amount');
+	$year = date('Y');
+	$year = App\Models\Order::where('order_year',$year)->sum('amount');
+	$pending = App\Models\Order::where('status','pending')->get();
+	$vendor = App\Models\User::where('status','active')->where('role','vendor')->get();
+	$customer = App\Models\User::where('status','active')->where('role','user')->get();
+  $orders = App\Models\Order::where('status','pending')->orderBy('id','DESC')->limit(10)->get();
+@endphp
       <!--Start Dashboard Content-->  
       <div class="row mt-3">
         <div class="col-12 col-lg-6 col-xl-3">
@@ -7,8 +20,8 @@
             <div class="card-body">
               <div class="media align-items-center">
               <div class="media-body">
-                <p class="text-white">Total Orders</p>
-                <h4 class="text-white line-height-5">8450</h4>
+                <p class="text-white">Today's Sale</p>
+                <h4 class="text-white line-height-5">${{$today}} USD</h4>
               </div>
               <div class="w-circle-icon rounded-circle border border-white">
                 <i class="fa fa-cart-plus text-white"></i></div>
@@ -21,8 +34,8 @@
             <div class="card-body">
               <div class="media align-items-center">
               <div class="media-body">
-                <p class="text-white">Total Revenue</p>
-                <h4 class="text-white line-height-5">$750</h4>
+                <p class="text-white">Monthly Sale</p>
+                <h4 class="text-white line-height-5">${{ $month }} USD</h4>
               </div>
               <div class="w-circle-icon rounded-circle border border-white">
                 <i class="fa fa-money text-white"></i></div>
@@ -35,8 +48,8 @@
             <div class="card-body">
               <div class="media align-items-center">
               <div class="media-body">
-                <p class="text-white">New Users</p>
-                <h4 class="text-white line-height-5">620</h4>
+                <p class="text-white">Yearly Sale</p>
+                <h4 class="text-white line-height-5">${{ $year }} USD</h4>
               </div>
               <div class="w-circle-icon rounded-circle border border-white">
                 <i class="fa fa-users text-white"></i></div>
@@ -49,8 +62,36 @@
             <div class="card-body">
               <div class="media align-items-center">
               <div class="media-body">
-                <p class="text-white">Bounce Rate</p>
-                <h4 class="text-white line-height-5">12.80%</h4>
+                <p class="text-white">Pending Orders</p>
+                <h4 class="text-white line-height-5">{{count($pending)}}</h4>
+              </div>
+              <div class="w-circle-icon rounded-circle border border-white">
+                <i class="fa fa-pie-chart text-white"></i></div>
+            </div>
+            </div>
+          </div>
+        </div>
+        <div class="col-12 col-lg-6 col-xl-3">
+          <div class="card gradient-blooker">
+            <div class="card-body">
+              <div class="media align-items-center">
+              <div class="media-body">
+                <p class="text-white">Total Vendors</p>
+                <h4 class="text-white line-height-5">{{count($vendor)}}</h4>
+              </div>
+              <div class="w-circle-icon rounded-circle border border-white">
+                <i class="fa fa-users text-white"></i></div>
+            </div>
+            </div>
+          </div>
+        </div>
+        <div class="col-12 col-lg-6 col-xl-3">
+          <div class="card gradient-ohhappiness">
+            <div class="card-body">
+              <div class="media align-items-center">
+              <div class="media-body">
+                <p class="text-white">Total Users</p>
+                <h4 class="text-white line-height-5">{{count($customer)}}</h4>
               </div>
               <div class="w-circle-icon rounded-circle border border-white">
                 <i class="fa fa-pie-chart text-white"></i></div>
@@ -63,19 +104,12 @@
         <div class="col-lg-12">
           <div class="card">
       <div class="card-header border-0">
-                Recent Orders Table
+                Order Summary
         <div class="card-action">
          <div class="dropdown">
          <a href="javascript:void();" class="dropdown-toggle dropdown-toggle-nocaret" data-toggle="dropdown">
           <i class="icon-options"></i>
          </a>
-            <div class="dropdown-menu dropdown-menu-right">
-            <a class="dropdown-item" href="javascript:void();">Action</a>
-            <a class="dropdown-item" href="javascript:void();">Another action</a>
-            <a class="dropdown-item" href="javascript:void();">Something else here</a>
-            <div class="dropdown-divider"></div>
-            <a class="dropdown-item" href="javascript:void();">Separated link</a>
-           </div>
           </div>
                  </div>
                 </div>
@@ -84,117 +118,27 @@
                  <table class="table align-items-center table-flush">
                   <thead>
                    <tr>
-                     <th>Action</th>
-                     <th>Product</th>
-                     <th>Photo</th>
-                     <th>Product ID</th>
-                     <th>Status</th>
+                    <th>Sl</th>
+                     <th>Date</th>
+                     <th>Invoice</th>
                      <th>Amount</th>
-                     <th>Completion</th>
+                     <th>Payment</th>
+                     <th>Status</th>
                    </tr>
                    </thead>
+                   @foreach ($orders as $key => $item)
+                       
+                   
                    <tr>
-                    <td>
-                       <div class="icheck-material-primary">
-                        <input type="checkbox" id="check1"/>
-                        <label for="check1"></label>
-                      </div>
-                    </td>
-                    <td>Iphone 5</td>
-                    <td><img src="{{asset('adminbackend/assets/images/products/01.png')}}" class="product-img" alt="product img"></td>
-                    <td>#9405822</td>
-                    <td><span class="btn btn-sm btn-outline-success btn-round btn-block">Paid</span></td>
-                    <td>$ 1250.00</td>
-                    <td><div class="progress shadow" style="height: 4px;">
-                          <div class="progress-bar gradient-ohhappiness" role="progressbar" style="width: 100%"></div>
-                       </div></td>
-                   </tr>
-
-                   <tr>
-                    <td>
-                       <div class="icheck-material-primary">
-                        <input type="checkbox" id="check2"/>
-                        <label for="check2"></label>
-                      </div>
-                    </td>
-                    <td>Earphone GL</td>
-                    <td><img src="{{asset('adminbackend/assets/images/products/02.png')}}" class="product-img" alt="product img"></td>
-                    <td>#9405820</td>
-                    <td><span class="btn btn-sm btn-outline-info btn-round btn-block">Pending</span></td>
-                    <td>$ 1500.00</td>
-                    <td><div class="progress shadow" style="height: 4px;">
-                          <div class="progress-bar gradient-scooter" role="progressbar" style="width: 80%"></div>
-                       </div></td>
-                   </tr>
-
-                   <tr>
-                    <td>
-                       <div class="icheck-material-primary">
-                        <input type="checkbox" id="check3"/>
-                        <label for="check3"></label>
-                      </div>
-                    </td>
-                    <td>HD Hand Camera</td>
-                    <td><img src="{{asset('adminbackend/assets/images/products/03.png')}}" class="product-img" alt="product img"></td>
-                    <td>#9405830</td>
-                    <td><span class="btn btn-sm btn-outline-danger btn-round btn-block">Failed</span></td>
-                    <td>$ 1400.00</td>
-                    <td><div class="progress shadow" style="height: 4px;">
-                          <div class="progress-bar gradient-ibiza" role="progressbar" style="width: 60%"></div>
-                       </div></td>
-                   </tr>
-
-                   <tr>
-                    <td>
-                       <div class="icheck-material-primary">
-                        <input type="checkbox" id="check4"/>
-                        <label for="check4"></label>
-                      </div>
-                    </td>
-                    <td>Clasic Shoes</td>
-                    <td><img src="{{asset('adminbackend/assets/images/products/04.png')}} class="product-img" alt="product img"></td>
-                    <td>#9405825</td>
-                    <td><span class="btn btn-sm btn-outline-success btn-round btn-block">Paid</span></td>
-                    <td>$ 1200.00</td>
-                    <td><div class="progress shadow" style="height: 4px;">
-                          <div class="progress-bar gradient-ohhappiness" role="progressbar" style="width: 100%"></div>
-                       </div></td>
-                   </tr>
-
-                   <tr>
-                    <td>
-                       <div class="icheck-material-primary">
-                        <input type="checkbox" id="check5"/>
-                        <label for="check5"></label>
-                      </div>
-                    </td>
-                    <td>Hand Watch</td>
-                    <td><img src="{{asset('adminbackend/assets/images/products/05.png')}}" class="product-img" alt="product img"></td>
-                    <td>#9405840</td>
-                    <td><span class="btn btn-sm btn-outline-danger btn-round btn-block">Failed</span></td>
-                    <td>$ 1800.00</td>
-                    <td><div class="progress shadow" style="height: 4px;">
-                          <div class="progress-bar gradient-ibiza" role="progressbar" style="width: 75%"></div>
-                       </div></td>
-                   </tr>
-
-                    <tr>
-                      <td>
-                       <div class="icheck-material-primary">
-                        <input type="checkbox" id="check6"/>
-                        <label for="check6"></label>
-                      </div>
-                    </td>
-                    <td>HD Hand Camera</td>
-                    <td><img src="{{asset('adminbackend/assets/images/products/03.png')}}" class="product-img" alt="product img"></td>
-                    <td>#9405830</td>
-                    <td><span class="btn btn-sm btn-outline-info btn-round btn-block">Pending</span></td>
-                    <td>$ 1400.00</td>
-                    <td><div class="progress shadow" style="height: 4px;">
-                          <div class="progress-bar gradient-scooter" role="progressbar" style="width: 70%"></div>
-                       </div></td>
-                   </tr>
-
+                    <td>{{$key + 1}}</td>
+                    <td>{{$item->order_date}}</td>
+                    <td>{{$item->invoice_number}}</td>
+                    <td>${{$item->amount}}</td>
+                    <td>{{$item->payment_method}}</td>
+                    <td><span class="badge badge-pill text-primary">{{$item->status}}</span></td>
+        
+                      </tr>
+                      @endforeach
                  </table>
                </div>
           </div>
