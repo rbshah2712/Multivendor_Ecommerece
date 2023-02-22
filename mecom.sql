@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Host: 127.0.0.1
--- Generation Time: Feb 14, 2023 at 10:35 PM
+-- Generation Time: Feb 22, 2023 at 04:55 PM
 -- Server version: 10.4.27-MariaDB
 -- PHP Version: 8.2.0
 
@@ -167,17 +167,6 @@ CREATE TABLE `compares` (
   `updated_at` timestamp NULL DEFAULT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
 
---
--- Dumping data for table `compares`
---
-
-INSERT INTO `compares` (`id`, `user_id`, `product_id`, `created_at`, `updated_at`) VALUES
-(1, 3, 2, '2023-02-01 02:10:46', NULL),
-(2, 3, 3, '2023-02-01 02:11:23', NULL),
-(5, 3, 11, '2023-02-01 02:56:13', NULL),
-(6, 3, 6, '2023-02-01 02:56:26', NULL),
-(10, 3, 10, '2023-02-02 01:02:15', NULL);
-
 -- --------------------------------------------------------
 
 --
@@ -256,7 +245,89 @@ INSERT INTO `migrations` (`id`, `migration`, `batch`) VALUES
 (30, '2023_02_06_203620_create_order_items_table', 6),
 (31, '2023_02_13_160502_create_blog_categories_table', 7),
 (32, '2023_02_13_160805_create_blogs_table', 8),
-(33, '2023_02_14_155027_create_reviews_table', 9);
+(33, '2023_02_14_155027_create_reviews_table', 9),
+(34, '2023_02_15_142150_create_site_settings_table', 10),
+(35, '2023_02_15_152801_create_seos_table', 11),
+(36, '2023_02_15_220636_create_permission_tables', 12),
+(37, '2023_02_17_195545_create_notifications_table', 13);
+
+-- --------------------------------------------------------
+
+--
+-- Table structure for table `model_has_permissions`
+--
+
+CREATE TABLE `model_has_permissions` (
+  `permission_id` bigint(20) UNSIGNED NOT NULL,
+  `model_type` varchar(255) NOT NULL,
+  `model_id` bigint(20) UNSIGNED NOT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
+
+-- --------------------------------------------------------
+
+--
+-- Table structure for table `model_has_roles`
+--
+
+CREATE TABLE `model_has_roles` (
+  `role_id` bigint(20) UNSIGNED NOT NULL,
+  `model_type` varchar(255) NOT NULL,
+  `model_id` bigint(20) UNSIGNED NOT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
+
+--
+-- Dumping data for table `model_has_roles`
+--
+
+INSERT INTO `model_has_roles` (`role_id`, `model_type`, `model_id`) VALUES
+(2, 'App\\Models\\User', 15),
+(3, 'App\\Models\\User', 17),
+(4, 'App\\Models\\User', 16),
+(8, 'App\\Models\\User', 1);
+
+-- --------------------------------------------------------
+
+--
+-- Table structure for table `notifications`
+--
+
+CREATE TABLE `notifications` (
+  `id` char(36) NOT NULL,
+  `type` varchar(255) NOT NULL,
+  `notifiable_type` varchar(255) NOT NULL,
+  `notifiable_id` bigint(20) UNSIGNED NOT NULL,
+  `data` text NOT NULL,
+  `read_at` timestamp NULL DEFAULT NULL,
+  `created_at` timestamp NULL DEFAULT NULL,
+  `updated_at` timestamp NULL DEFAULT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
+
+--
+-- Dumping data for table `notifications`
+--
+
+INSERT INTO `notifications` (`id`, `type`, `notifiable_type`, `notifiable_id`, `data`, `read_at`, `created_at`, `updated_at`) VALUES
+('0f65c35c-8a45-4e03-a994-5a896d70e638', 'App\\Notifications\\OrderComplete', 'App\\Models\\User', 17, '{\"message\":\"New Order Added in Shop\"}', NULL, '2023-02-18 01:13:43', '2023-02-18 01:13:43'),
+('163636bd-a00d-4e17-a53d-33d6f570994c', 'App\\Notifications\\OrderComplete', 'App\\Models\\User', 15, '{\"message\":\"New Order Added in Shop\"}', NULL, '2023-02-18 01:13:43', '2023-02-18 01:13:43'),
+('2756a622-99a3-4043-b362-f3ec18ca716f', 'App\\Notifications\\OrderComplete', 'App\\Models\\User', 17, '{\"message\":\"New Order Added in Shop\"}', NULL, '2023-02-18 01:58:43', '2023-02-18 01:58:43'),
+('29e79648-891e-43a2-a9ad-21e2f3816e8f', 'App\\Notifications\\VendorRegisterNotification', 'App\\Models\\User', 17, '{\"message\":\"New Vendor Request\"}', NULL, '2023-02-18 02:25:50', '2023-02-18 02:25:50'),
+('2a51d302-f3ee-415c-b310-b8645002177f', 'App\\Notifications\\OrderComplete', 'App\\Models\\User', 16, '{\"message\":\"New Order Added in Shop\"}', NULL, '2023-02-18 01:13:43', '2023-02-18 01:13:43'),
+('484143c7-569f-40ca-a0cb-c8d6d6522c0a', 'App\\Notifications\\RegisterUserNotification', 'App\\Models\\User', 1, '{\"message\":\"New User Register in Shop\"}', NULL, '2023-02-18 02:36:28', '2023-02-18 02:36:28'),
+('4debe854-b862-45f9-89a1-051cdcac74d2', 'App\\Notifications\\OrderComplete', 'App\\Models\\User', 15, '{\"message\":\"New Order Added in Shop\"}', NULL, '2023-02-18 01:58:43', '2023-02-18 01:58:43'),
+('66ba0063-d29a-4623-a271-a738b1b8d8d8', 'App\\Notifications\\VendorRegisterNotification', 'App\\Models\\User', 15, '{\"message\":\"New Vendor Request\"}', NULL, '2023-02-18 02:25:50', '2023-02-18 02:25:50'),
+('7fe306cb-1f5e-4d6f-966d-41d128de10c1', 'App\\Notifications\\OrderComplete', 'App\\Models\\User', 1, '{\"message\":\"New Order Added in Shop\"}', NULL, '2023-02-18 01:58:43', '2023-02-18 01:58:43'),
+('8446ad6c-e993-4a64-a1e5-b2a7960073ce', 'App\\Notifications\\VendorRegisterNotification', 'App\\Models\\User', 1, '{\"message\":\"New Vendor Request\"}', NULL, '2023-02-18 02:25:50', '2023-02-18 02:25:50'),
+('942f5191-9145-440d-bfea-5465185f9be5', 'App\\Notifications\\OrderComplete', 'App\\Models\\User', 16, '{\"message\":\"New Order Added in Shop\"}', NULL, '2023-02-18 01:58:43', '2023-02-18 01:58:43'),
+('9e9fdd02-5971-4f28-91b1-a815cc111bec', 'App\\Notifications\\VendorApproveNotification', 'App\\Models\\User', 22, ' {\"message\":\"You Request Approved Successfully!!\"}', NULL, '2023-02-18 02:47:37', '2023-02-18 02:47:37'),
+('ac70aaa9-7c91-473a-90b5-d20bd2366545', 'App\\Notifications\\RegisterUserNotification', 'App\\Models\\User', 16, '{\"message\":\"New User Register in Shop\"}', NULL, '2023-02-18 02:36:28', '2023-02-18 02:36:28'),
+('ae28205a-9823-414f-ac89-a4e35b37c786', 'App\\Notifications\\OrderComplete', 'App\\Models\\User', 1, '{\"message\":\"New Order Added in Shop\"}', NULL, '2023-02-18 01:13:43', '2023-02-18 01:13:43'),
+('b0c20d76-7341-4900-b18a-9023561e4b3f', 'App\\Notifications\\VendorApproveNotification', 'App\\Models\\User', 12, ' {\"message\":\"You Request Approved Successfully!!\"}', NULL, '2023-02-18 02:47:37', '2023-02-18 02:47:37'),
+('b6644cf5-a074-4679-a0a2-f0831c3d2bef', 'App\\Notifications\\VendorApproveNotification', 'App\\Models\\User', 2, ' {\"message\":\"You Request Approved Successfully!!\"}', NULL, '2023-02-18 02:47:37', '2023-02-18 02:47:37'),
+('b7fb71ab-6afe-4076-a82c-46182c140809', 'App\\Notifications\\RegisterUserNotification', 'App\\Models\\User', 15, '{\"message\":\"New User Register in Shop\"}', NULL, '2023-02-18 02:36:28', '2023-02-18 02:36:28'),
+('c323afb0-7618-4229-bbb7-015a461daef8', 'App\\Notifications\\VendorApproveNotification', 'App\\Models\\User', 8, ' {\"message\":\"You Request Approved Successfully!!\"}', NULL, '2023-02-18 02:47:37', '2023-02-18 02:47:37'),
+('da4fa73c-5063-49f4-80e5-a1c858e8dd10', 'App\\Notifications\\RegisterUserNotification', 'App\\Models\\User', 17, '{\"message\":\"New User Register in Shop\"}', NULL, '2023-02-18 02:36:28', '2023-02-18 02:36:28'),
+('e11ceb49-9eed-4928-bfaf-c2fbc1b2e754', 'App\\Notifications\\VendorApproveNotification', 'App\\Models\\User', 10, ' {\"message\":\"You Request Approved Successfully!!\"}', NULL, '2023-02-18 02:47:37', '2023-02-18 02:47:37'),
+('e90789a0-6a11-4cc1-8441-84bd2ee88e48', 'App\\Notifications\\VendorRegisterNotification', 'App\\Models\\User', 16, '{\"message\":\"New Vendor Request\"}', NULL, '2023-02-18 02:25:50', '2023-02-18 02:25:50');
 
 -- --------------------------------------------------------
 
@@ -305,7 +376,7 @@ CREATE TABLE `orders` (
 --
 
 INSERT INTO `orders` (`id`, `user_id`, `division_id`, `district_id`, `state_id`, `name`, `email`, `phone`, `address`, `post_code`, `notes`, `payment_type`, `payment_method`, `transaction_id`, `currency`, `amount`, `order_number`, `invoice_number`, `order_date`, `order_month`, `order_year`, `confirm_date`, `processing_date`, `pick_date`, `shipped_date`, `delivered_date`, `cancel_date`, `return_date`, `return_reason`, `return_order`, `status`, `created_at`, `updated_at`) VALUES
-(1, 3, 5, 4, 2, 'User', 'user@gmail.com', 'user', '4245,rosement bridge ct', '30024', 'test stripe', 'card_1MYc2NIYBGycCHELT166psby', 'Stripe', 'txn_3MYc2OIYBGycCHEL0NZ4Nlqg', 'usd', 400.00, '63e16dfee14c1', 'EOS15184247', '06 February 2023', 'February', '2023', NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, 0, 'deliverd', '2023-02-07 02:15:44', NULL),
+(1, 3, 5, 4, 2, 'User', 'user@gmail.com', 'user', '4245,rosement bridge ct', '30024', 'test stripe', 'card_1MYc2NIYBGycCHELT166psby', 'Stripe', 'txn_3MYc2OIYBGycCHEL0NZ4Nlqg', 'usd', 400.00, '63e16dfee14c1', 'EOS15184247', '15 February 2023', 'February', '2023', NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, 0, 'deliverd', '2023-02-07 02:15:44', NULL),
 (3, 3, 5, 4, 2, 'User', 'user@gmail.com', 'Ruchi S', 'Morris Road', '30024', NULL, 'Cash On Delivery', 'Cash On Delivery', NULL, 'Usd', 400.00, NULL, 'EOS49221490', '06 February 2023', 'February', '2023', NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, 0, 'confirmed', '2023-02-07 02:31:56', NULL),
 (4, 3, 5, 4, 2, 'User', 'user@gmail.com', '4567890909', 'Morris road', '30005', 'First test mail', 'Cash On Delivery', 'Cash On Delivery', NULL, 'Usd', 1600.00, NULL, 'EOS32082678', '06 February 2023', 'February', '2023', NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, 0, 'pending', '2023-02-07 02:39:37', NULL),
 (5, 3, 5, 4, 2, 'User', 'user@gmail.com', '4567890909', 'Morris road', '30005', 'First test mail', 'Cash On Delivery', 'Cash On Delivery', NULL, 'Usd', 1600.00, NULL, 'EOS30341115', '06 February 2023', 'February', '2023', NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, 0, 'pending', '2023-02-07 02:41:36', NULL),
@@ -319,7 +390,9 @@ INSERT INTO `orders` (`id`, `user_id`, `division_id`, `district_id`, `state_id`,
 (13, 3, 5, 4, 2, 'User', 'user@gmail.com', 'user', 'Morriad Road', '30005', 'adadasddsd', 'Cash On Delivery', 'Cash On Delivery', NULL, 'Usd', 135.00, NULL, 'EOS49917069', '07 February 2023', 'February', '2023', NULL, NULL, NULL, NULL, NULL, NULL, '09 February 2023', 'broken product', 1, 'deliverd', '2023-02-08 02:39:23', '2023-02-10 02:47:18'),
 (14, 3, 5, 4, 2, 'User', 'user@gmail.com', 'user222', 'Walmart road', '30005', 'test stripe', 'card_1MYywCIYBGycCHELmmuNLrC8', 'Stripe', 'txn_3MYywDIYBGycCHEL11gCQQcH', 'usd', 50.00, '63e2c5dc55243', 'EOS16165054', '07 February 2023', 'February', '2023', NULL, NULL, NULL, NULL, NULL, NULL, '09 February 2023', 'wrong product', 2, 'deliverd', '2023-02-08 02:42:53', '2023-02-10 19:26:20'),
 (15, 3, 5, 4, 2, 'Ruchi Sanghvi', 'user@gmail.com', '4694347643', '4245 Cedar Bridge Walk', '30024', 'Test User', 'Cash On Delivery', 'Cash On Delivery', NULL, 'Usd', 2400.00, NULL, 'EOS19724470', '10 February 2023', 'February', '2023', NULL, NULL, NULL, NULL, NULL, NULL, '10 February 2023', 'not working well', 2, 'deliverd', '2023-02-10 19:47:04', '2023-02-10 20:39:06'),
-(16, 3, 5, 4, 2, 'Ruchi Sanghvi', 'user@gmail.com', '4694347643', '4245 Cedar Bridge Walk', '30024', 'testtesttesttesttest', 'Cash On Delivery', 'Cash On Delivery', NULL, 'Usd', 120.00, NULL, 'EOS83520894', '10 February 2023', 'February', '2023', NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, 0, 'pending', '2023-02-10 19:59:44', NULL);
+(16, 3, 5, 4, 2, 'Ruchi Sanghvi', 'user@gmail.com', '4694347643', '4245 Cedar Bridge Walk', '30024', 'testtesttesttesttest', 'Cash On Delivery', 'Cash On Delivery', NULL, 'Usd', 120.00, NULL, 'EOS83520894', '10 February 2023', 'February', '2023', NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, 0, 'deliverd', '2023-02-10 19:59:44', '2023-02-15 22:02:07'),
+(17, 3, 5, 4, 2, 'Ruchi Sanghvi', 'user@gmail.com', '4694347643', '4245 Cedar Bridge Walk', '30024', 'cash on delivery', 'Cash On Delivery', 'Cash On Delivery', NULL, 'Usd', 135.00, NULL, 'EOS81231912', '17 February 2023', 'February', '2023', NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, 0, 'pending', '2023-02-18 01:13:42', NULL),
+(18, 3, 5, 4, 2, 'Ruchi Sanghvi', 'user@gmail.com', '4694347643', '4245 Cedar Bridge Walk', '30004', 'test test tets', 'Cash On Delivery', 'Cash On Delivery', NULL, 'Usd', 3240.00, NULL, 'EOS60688060', '17 February 2023', 'February', '2023', NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, 0, 'pending', '2023-02-18 01:58:40', NULL);
 
 -- --------------------------------------------------------
 
@@ -356,7 +429,9 @@ INSERT INTO `order_items` (`id`, `order_id`, `product_id`, `vendor_id`, `color`,
 (10, 13, 1, '12', 'Red', 'Small', '1', 150.00, '2023-02-08 02:39:24', NULL),
 (11, 14, 10, '12', 'Red', 'Small', '1', 50.00, '2023-02-08 02:42:54', NULL),
 (12, 15, 5, '12', 'Red', 'Small', '2', 1500.00, '2023-02-10 19:47:05', NULL),
-(13, 16, 1, '12', 'Red', 'Small', '1', 150.00, '2023-02-10 19:59:46', NULL);
+(13, 16, 1, '12', 'Red', 'Small', '1', 150.00, '2023-02-10 19:59:46', NULL),
+(14, 17, 1, '12', 'Red', 'Small', '1', 150.00, '2023-02-18 01:13:43', NULL),
+(15, 18, 6, NULL, 'Red', 'Small', '2', 1800.00, '2023-02-18 01:58:42', NULL);
 
 -- --------------------------------------------------------
 
@@ -369,6 +444,75 @@ CREATE TABLE `password_resets` (
   `token` varchar(255) NOT NULL,
   `created_at` timestamp NULL DEFAULT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
+
+-- --------------------------------------------------------
+
+--
+-- Table structure for table `permissions`
+--
+
+CREATE TABLE `permissions` (
+  `id` bigint(20) UNSIGNED NOT NULL,
+  `name` varchar(255) NOT NULL,
+  `guard_name` varchar(255) NOT NULL,
+  `group_name` varchar(255) DEFAULT NULL,
+  `created_at` timestamp NULL DEFAULT NULL,
+  `updated_at` timestamp NULL DEFAULT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
+
+--
+-- Dumping data for table `permissions`
+--
+
+INSERT INTO `permissions` (`id`, `name`, `guard_name`, `group_name`, `created_at`, `updated_at`) VALUES
+(1, 'brand.menu', 'web', 'brand', '2023-02-16 21:17:24', '2023-02-16 21:17:24'),
+(2, 'brand.list', 'web', 'brand', '2023-02-16 21:18:09', '2023-02-16 21:18:09'),
+(3, 'brand.add', 'web', 'brand', '2023-02-16 21:18:24', '2023-02-16 21:18:24'),
+(4, 'brand.edit', 'web', 'brand', '2023-02-16 21:18:36', '2023-02-16 21:18:36'),
+(5, 'brand.delete', 'web', 'brand', '2023-02-16 21:18:45', '2023-02-16 21:18:45'),
+(6, 'category.menu', 'web', 'category', '2023-02-16 21:19:06', '2023-02-16 21:19:06'),
+(7, 'category.list', 'web', 'category', '2023-02-16 21:19:18', '2023-02-16 21:19:18'),
+(8, 'category.add', 'web', 'category', '2023-02-16 21:19:25', '2023-02-16 21:19:25'),
+(9, 'category.edit', 'web', 'category', '2023-02-16 21:19:32', '2023-02-16 21:19:32'),
+(10, 'category.delete', 'web', 'category', '2023-02-16 21:19:41', '2023-02-16 21:19:41'),
+(11, 'subcategory.menu', 'web', 'subcategory', '2023-02-16 21:19:56', '2023-02-16 21:19:56'),
+(12, 'subcategory.list', 'web', 'subcategory', '2023-02-16 21:20:08', '2023-02-16 21:20:08'),
+(13, 'subcategory.add', 'web', 'subcategory', '2023-02-16 21:20:15', '2023-02-16 21:20:15'),
+(14, 'subcategory.edit', 'web', 'subcategory', '2023-02-16 21:20:22', '2023-02-16 21:20:22'),
+(15, 'subcategory.delete', 'web', 'subcategory', '2023-02-16 21:20:28', '2023-02-16 21:20:28'),
+(16, 'product.list', 'web', 'product', '2023-02-16 21:20:55', '2023-02-16 21:20:55'),
+(17, 'product.menu', 'web', 'product', '2023-02-16 21:21:07', '2023-02-16 21:21:07'),
+(18, 'product.add', 'web', 'product', '2023-02-16 21:21:15', '2023-02-16 21:21:15'),
+(19, 'product.edit', 'web', 'product', '2023-02-16 21:21:23', '2023-02-16 21:21:23'),
+(20, 'product.delete', 'web', 'product', '2023-02-16 21:21:28', '2023-02-16 21:21:28'),
+(21, 'slider.menu', 'web', 'slider', '2023-02-16 21:21:37', '2023-02-16 21:21:37'),
+(22, 'slider.list', 'web', 'slider', '2023-02-16 21:21:45', '2023-02-16 21:21:45'),
+(23, 'slider.add', 'web', 'slider', '2023-02-16 21:21:50', '2023-02-16 21:21:50'),
+(24, 'slider.edit', 'web', 'slider', '2023-02-16 21:21:57', '2023-02-16 21:21:57'),
+(25, 'slider.delete', 'web', 'slider', '2023-02-16 21:22:03', '2023-02-16 21:22:03'),
+(26, 'ads.menu', 'web', 'ads', '2023-02-16 21:28:35', '2023-02-16 21:28:35'),
+(27, 'ads.list', 'web', 'ads', '2023-02-16 21:28:42', '2023-02-16 21:28:42'),
+(28, 'ads.add', 'web', 'ads', '2023-02-16 21:28:48', '2023-02-16 21:28:48'),
+(29, 'ads.edit', 'web', 'ads', '2023-02-16 21:28:54', '2023-02-16 21:28:54'),
+(30, 'ads.delete', 'web', 'ads', '2023-02-16 21:29:02', '2023-02-16 21:29:02'),
+(31, 'coupon.list', 'web', 'coupon', '2023-02-16 21:29:16', '2023-02-16 21:29:16'),
+(32, 'coupon.menu', 'web', 'coupon', '2023-02-16 21:29:23', '2023-02-16 21:29:23'),
+(33, 'coupon.add', 'web', 'coupon', '2023-02-16 21:29:30', '2023-02-16 21:29:30'),
+(34, 'coupon.edit', 'web', 'coupon', '2023-02-16 21:29:36', '2023-02-16 21:29:36'),
+(35, 'coupon.delete', 'web', 'coupon', '2023-02-16 21:29:44', '2023-02-16 21:29:44'),
+(37, 'vendor.menu', 'web', 'vendor', '2023-02-16 21:30:04', '2023-02-16 21:30:04'),
+(41, 'area.menu', 'web', 'area', '2023-02-16 21:32:14', '2023-02-16 21:32:14'),
+(46, 'order.menu', 'web', 'order', '2023-02-16 21:32:59', '2023-02-16 21:32:59'),
+(47, 'order.list', 'web', 'order', '2023-02-16 21:33:06', '2023-02-16 21:33:06'),
+(51, 'return.order.menu', 'web', 'returns', '2023-02-16 21:33:52', '2023-02-17 00:02:19'),
+(56, 'report.menu', 'web', 'report', '2023-02-16 21:44:30', '2023-02-16 21:44:30'),
+(61, 'user.menu', 'web', 'user', '2023-02-16 21:44:30', '2023-02-16 21:44:30'),
+(66, 'review.menu', 'web', 'review', '2023-02-16 21:44:30', '2023-02-16 21:44:30'),
+(71, 'setting.menu', 'web', 'setting', '2023-02-16 21:44:30', '2023-02-16 21:44:30'),
+(81, 'role.permission.menu', 'web', 'role', '2023-02-16 21:55:10', '2023-02-17 00:53:41'),
+(86, 'admin.menu', 'web', 'admin', '2023-02-16 22:00:52', '2023-02-16 22:00:52'),
+(88, 'stock.menu', 'web', 'stock', '2023-02-16 22:03:48', '2023-02-16 22:03:48'),
+(93, 'blog.menu', 'web', 'blog', '2023-02-17 00:39:57', '2023-02-17 00:39:57');
 
 -- --------------------------------------------------------
 
@@ -427,7 +571,7 @@ CREATE TABLE `products` (
 --
 
 INSERT INTO `products` (`id`, `brand_id`, `category_id`, `subcategory_id`, `product_name`, `product_slug`, `product_code`, `product_qty`, `product_tags`, `product_color`, `product_size`, `selling_price`, `discount_price`, `short_descp`, `long_descp`, `product_thumbnail`, `vendor_id`, `hot_deals`, `featured`, `special_offer`, `special_deals`, `status`, `created_at`, `updated_at`) VALUES
-(1, 1, 2, 3, 'Shoes', 'shoes', 'C34567', '25', 'new product,top product', 'Red,Blue,Black', 'Small,Midium,Large', '250', '150', 'Contrary to popular belief, Lorem Ipsum is not simply random text. It has roots in a piece of classical Latin literature from 45 BC, making it over 2000 years old. Richard McClintock, a Latin professor at Hampden-Sydney College in Virginia, looked up one of the more obscure Latin wor', 'Contrary to popular belief, Lorem Ipsum is not simply random text. It has roots in a piece of classical Latin literature from 45 BC, making it over 2000 years old. Richard McClintock, a Latin professor at Hampden-Sydney College in Virginia, looked up one of the more obscure Latin worContrary to popular belief, Lorem Ipsum is not simply random text. It has roots in a piece of classical Latin literature from 45 BC, making it over 2000 years old. Richard McClintock, a Latin professor at Hampden-Sydney College in Virginia, looked up one of the more obscure Latin wor', 'upload/products/thumbnail/1755768828563554.jpg', '12', 1, 1, NULL, 1, 1, '2023-01-27 23:28:41', '2023-01-27 23:28:41'),
+(1, 1, 2, 3, 'Shoes', 'shoes', 'C34567', '24', 'new product,top product', 'Red,Blue,Black', 'Small,Midium,Large', '250', '150', 'Contrary to popular belief, Lorem Ipsum is not simply random text. It has roots in a piece of classical Latin literature from 45 BC, making it over 2000 years old. Richard McClintock, a Latin professor at Hampden-Sydney College in Virginia, looked up one of the more obscure Latin wor', 'Contrary to popular belief, Lorem Ipsum is not simply random text. It has roots in a piece of classical Latin literature from 45 BC, making it over 2000 years old. Richard McClintock, a Latin professor at Hampden-Sydney College in Virginia, looked up one of the more obscure Latin worContrary to popular belief, Lorem Ipsum is not simply random text. It has roots in a piece of classical Latin literature from 45 BC, making it over 2000 years old. Richard McClintock, a Latin professor at Hampden-Sydney College in Virginia, looked up one of the more obscure Latin wor', 'upload/products/thumbnail/1755768828563554.jpg', '12', 1, 1, NULL, 1, 1, '2023-01-27 23:28:41', '2023-02-15 22:02:07'),
 (2, 1, 2, 3, 'Woman Accessories', 'woman-accessories', 'C45333', '25', 'new product,top product', 'Red,Blue,Black', 'Small,Midium,Large', '200', '100', 'Contrary to popular belief, Lorem Ipsum is not simply random text. It has roots in a piece of classical Latin literature from 45 BC, making it over 2000 years old. Richard McClintock, a Latin professor at Hampden-Sydney College in Virginia, looked up one of the more obscure Latin wor', 'Hello, World!Contrary to popular belief, Lorem Ipsum is not simply random text. It has roots in a piece of classical Latin literature from 45 BC, making it over 2000 years old. Richard McClintock, a Latin professor at Hampden-Sydney College in Virginia, looked up one of the more obscure Latin worContrary to popular belief, Lorem Ipsum is not simply random text. It has roots in a piece of classical Latin literature from 45 BC, making it over 2000 years old. Richard McClintock, a Latin professor at Hampden-Sydney College in Virginia, looked up one of the more obscure Latin wor', 'upload/products/thumbnail/1755768885449513.jpg', '12', 1, NULL, NULL, NULL, 1, '2023-01-23 04:54:51', NULL),
 (3, 4, 4, 1, 'LG Refrigerator', 'lg-refrigerator', '347900', '25', 'new product,top product', 'Red,Blue,Black', 'Small,Midium,Large', '2000', NULL, 'Lorem Ipsum is simply dummy text of the printing and typesetting industry. Lorem Ipsum has been the industry\'s standard dummy text ever since the 1500s, when an unknown printer took a galley of type and scrambled it to make a type specimen book. It has survived not only five cen', 'Lorem Ipsum is simply dummy text of the printing and typesetting industry. Lorem Ipsum has been the industry\'s standard dummy text ever since the 1500s, when an unknown printer took a galley of type and scrambled it to make a type specimen book. It has survived not only five cenLorem Ipsum is simply dummy text of the printing and typesetting industry. Lorem Ipsum has been the industry\'s standard dummy text ever since the 1500s, when an unknown printer took a galley of type and scrambled it to make a type specimen book. It has survived not only five cen', 'upload/products/thumbnail/1755784269725602.webp', '12', NULL, 1, NULL, 1, 1, '2023-01-27 23:28:36', '2023-01-27 23:28:36'),
 (4, 5, 4, 2, 'Dryer', 'dryer', '143655', '25', 'new product,top product', 'Red,Blue,Black', 'Small,Midium,Large', '600', '500', 'Lorem Ipsum is simply dummy text of the printing and typesetting industry. Lorem Ipsum has been the industry\'s standard dummy text ever since the 1500s, when an unknown printer took a galley of type and scrambled it to make a type specimen book. It has survived not only five cen', 'Lorem Ipsum is simply dummy text of the printing and typesetting industry. Lorem Ipsum has been the industry\'s standard dummy text ever since the 1500s, when an unknown printer took a galley of type and scrambled it to make a type specimen book. It has survived not only five cenLorem Ipsum is simply dummy text of the printing and typesetting industry. Lorem Ipsum has been the industry\'s standard dummy text ever since the 1500s, when an unknown printer took a galley of type and scrambled it to make a type specimen book. It has survived not only five cen', 'upload/products/thumbnail/1755784432093644.jpg', '2', 1, NULL, 1, NULL, 1, '2023-01-24 08:03:11', '2023-01-24 08:03:11'),
@@ -520,6 +664,150 @@ INSERT INTO `reviews` (`id`, `user_id`, `product_id`, `comment`, `rating`, `stat
 -- --------------------------------------------------------
 
 --
+-- Table structure for table `roles`
+--
+
+CREATE TABLE `roles` (
+  `id` bigint(20) UNSIGNED NOT NULL,
+  `name` varchar(255) NOT NULL,
+  `guard_name` varchar(255) NOT NULL,
+  `created_at` timestamp NULL DEFAULT NULL,
+  `updated_at` timestamp NULL DEFAULT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
+
+--
+-- Dumping data for table `roles`
+--
+
+INSERT INTO `roles` (`id`, `name`, `guard_name`, `created_at`, `updated_at`) VALUES
+(2, 'Admin', 'web', '2023-02-16 22:15:46', '2023-02-16 22:15:46'),
+(3, 'CEO', 'web', '2023-02-16 22:16:04', '2023-02-16 22:16:04'),
+(4, 'Account', 'web', '2023-02-16 22:16:17', '2023-02-16 22:16:17'),
+(8, 'SuperAdmin', 'web', '2023-02-17 02:18:48', '2023-02-17 02:18:48');
+
+-- --------------------------------------------------------
+
+--
+-- Table structure for table `role_has_permissions`
+--
+
+CREATE TABLE `role_has_permissions` (
+  `permission_id` bigint(20) UNSIGNED NOT NULL,
+  `role_id` bigint(20) UNSIGNED NOT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
+
+--
+-- Dumping data for table `role_has_permissions`
+--
+
+INSERT INTO `role_has_permissions` (`permission_id`, `role_id`) VALUES
+(1, 3),
+(1, 4),
+(1, 8),
+(2, 3),
+(2, 4),
+(2, 8),
+(3, 3),
+(3, 8),
+(4, 3),
+(4, 8),
+(5, 3),
+(5, 8),
+(6, 3),
+(6, 4),
+(6, 8),
+(7, 3),
+(7, 8),
+(8, 3),
+(8, 8),
+(9, 3),
+(9, 8),
+(10, 3),
+(10, 8),
+(11, 8),
+(12, 8),
+(13, 8),
+(14, 8),
+(15, 8),
+(16, 3),
+(16, 4),
+(16, 8),
+(17, 3),
+(17, 4),
+(17, 8),
+(18, 3),
+(18, 8),
+(19, 3),
+(19, 8),
+(20, 3),
+(20, 8),
+(21, 8),
+(22, 8),
+(23, 8),
+(24, 8),
+(25, 8),
+(26, 8),
+(27, 8),
+(28, 8),
+(29, 8),
+(30, 8),
+(31, 3),
+(31, 8),
+(32, 3),
+(32, 8),
+(33, 3),
+(33, 8),
+(34, 3),
+(34, 8),
+(35, 3),
+(35, 8),
+(37, 8),
+(41, 4),
+(41, 8),
+(46, 3),
+(46, 8),
+(47, 3),
+(47, 8),
+(51, 8),
+(56, 2),
+(56, 8),
+(61, 2),
+(61, 8),
+(66, 8),
+(71, 8),
+(81, 8),
+(86, 2),
+(86, 8),
+(88, 8),
+(93, 4),
+(93, 8);
+
+-- --------------------------------------------------------
+
+--
+-- Table structure for table `seos`
+--
+
+CREATE TABLE `seos` (
+  `id` bigint(20) UNSIGNED NOT NULL,
+  `meta_title` varchar(255) DEFAULT NULL,
+  `meta_author` varchar(255) DEFAULT NULL,
+  `meta_keyword` varchar(255) DEFAULT NULL,
+  `meta_description` text DEFAULT NULL,
+  `created_at` timestamp NULL DEFAULT NULL,
+  `updated_at` timestamp NULL DEFAULT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
+
+--
+-- Dumping data for table `seos`
+--
+
+INSERT INTO `seos` (`id`, `meta_title`, `meta_author`, `meta_keyword`, `meta_description`, `created_at`, `updated_at`) VALUES
+(1, 'MultiVendor Ecommerece System', 'Ruchi Sanghvi', 'best online shop,best t-shirt,best multivendor system', 'Everyday Fresh & Clean with Our Products', '2023-02-15 15:33:21', '2023-02-15 20:41:03');
+
+-- --------------------------------------------------------
+
+--
 -- Table structure for table `ship_districts`
 --
 
@@ -590,6 +878,34 @@ INSERT INTO `ship_states` (`id`, `division_id`, `district_id`, `state_name`, `cr
 (2, 5, 4, 'Manhatton', '2023-02-02 19:55:57', '2023-02-02 20:18:10'),
 (8, 6, 3, 'Alpharetta', '2023-02-02 20:17:17', '2023-02-02 20:17:58'),
 (9, 2, 8, 'dsffdsff', '2023-02-02 20:24:09', NULL);
+
+-- --------------------------------------------------------
+
+--
+-- Table structure for table `site_settings`
+--
+
+CREATE TABLE `site_settings` (
+  `id` bigint(20) UNSIGNED NOT NULL,
+  `logo` varchar(255) DEFAULT NULL,
+  `support_phone` varchar(255) DEFAULT NULL,
+  `phone1` varchar(255) DEFAULT NULL,
+  `email` varchar(255) DEFAULT NULL,
+  `company_address` text DEFAULT NULL,
+  `facebook` varchar(255) DEFAULT NULL,
+  `twitter` varchar(255) DEFAULT NULL,
+  `youtube` varchar(255) DEFAULT NULL,
+  `copyright` varchar(255) DEFAULT NULL,
+  `created_at` timestamp NULL DEFAULT NULL,
+  `updated_at` timestamp NULL DEFAULT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
+
+--
+-- Dumping data for table `site_settings`
+--
+
+INSERT INTO `site_settings` (`id`, `logo`, `support_phone`, `phone1`, `email`, `company_address`, `facebook`, `twitter`, `youtube`, `copyright`, `created_at`, `updated_at`) VALUES
+(1, 'upload/logo/1757910172581718.png', '1900-882', '4697690390', 'rsanghvi2712@gmail.com', '4245,cedar bridge walk,suwanee', 'facebook.com', 'twitter.com', 'youtube.com', 'Copyright 2022 All Right Reserved By Ruchi S', '2023-02-15 14:34:22', '2023-02-15 20:13:52');
 
 -- --------------------------------------------------------
 
@@ -670,7 +986,7 @@ CREATE TABLE `users` (
   `photo` varchar(255) DEFAULT NULL,
   `phone` varchar(255) DEFAULT NULL,
   `address` text DEFAULT NULL,
-  `vendor_join` varchar(255) NOT NULL,
+  `vendor_join` varchar(255) DEFAULT NULL,
   `vendor_short_info` varchar(255) DEFAULT NULL,
   `role` enum('admin','vendor','user') NOT NULL DEFAULT 'user',
   `status` enum('active','inactive') NOT NULL DEFAULT 'active',
@@ -685,18 +1001,20 @@ CREATE TABLE `users` (
 --
 
 INSERT INTO `users` (`id`, `name`, `username`, `email`, `email_verified_at`, `password`, `photo`, `phone`, `address`, `vendor_join`, `vendor_short_info`, `role`, `status`, `last_seen`, `remember_token`, `created_at`, `updated_at`) VALUES
-(1, 'Admin', 'admin', 'admin@gmail.com', NULL, '$2y$10$Ohwwu6/DqbnIIrMpBT84nelajcDrkGoU0VVGI8diEHRfkXpm6rUl6', '20230207214520200809_190646.jpg', NULL, NULL, '', '', 'admin', 'active', '2023-02-14 21:28:42', NULL, NULL, '2023-02-15 02:28:42'),
+(1, 'Admin', 'admin', 'admin@gmail.com', NULL, '$2y$10$Ohwwu6/DqbnIIrMpBT84nelajcDrkGoU0VVGI8diEHRfkXpm6rUl6', '20230207214520200809_190646.jpg', '4694347643', '4245 Cedar Bridge Walk', '', '', 'admin', 'active', '2023-02-17 21:57:36', NULL, NULL, '2023-02-18 02:57:36'),
 (2, 'Ariyan Vendor', 'vendor', 'vendor@gmail.com', NULL, '$2y$10$Ohwwu6/DqbnIIrMpBT84nelajcDrkGoU0VVGI8diEHRfkXpm6rUl6', '20230207234020200809_183734.jpg', '469-456-8965', NULL, '2022', 'test', 'vendor', 'active', '2023-02-14 20:55:49', NULL, NULL, '2023-02-15 01:55:49'),
-(3, 'Ruchi Sanghvi', 'user', 'user@gmail.com', NULL, '$2y$10$5W/B5g0MvYYQjfQ9V27MFOeW/105x3VEXi5jSqbjOfU3FcgZdFkmW', '202302081423IMG-20210802-WA0059.jpg', '4694347643', '4245 Cedar Bridge Walk', '', '', 'user', 'active', '2023-02-14 21:22:45', NULL, NULL, '2023-02-15 02:22:45'),
+(3, 'Ruchi Sanghvi', 'user', 'user@gmail.com', NULL, '$2y$10$5W/B5g0MvYYQjfQ9V27MFOeW/105x3VEXi5jSqbjOfU3FcgZdFkmW', '202302081423IMG-20210802-WA0059.jpg', '4694347643', '4245 Cedar Bridge Walk', '', '', 'user', 'active', '2023-02-21 18:34:59', NULL, NULL, '2023-02-21 23:34:59'),
 (4, 'Zetta Boyle', NULL, 'gene.predovic@example.com', '2023-01-23 04:44:36', '$2y$10$92IXUNpkjO0rOQ5byMi.Ye4oKoEa3Ro9llC/.og/at2.uheWG/igi', '', '1-205-581-4890', '79031 Xzavier Mills\nLake Sydniberg, DC 21942-1574', '', '', 'user', 'inactive', NULL, 'Zg1PO3WhXy', '2023-01-23 04:44:36', '2023-01-23 04:44:36'),
 (5, 'Fritz Schulist', NULL, 'brigitte54@example.net', '2023-01-23 04:44:36', '$2y$10$92IXUNpkjO0rOQ5byMi.Ye4oKoEa3Ro9llC/.og/at2.uheWG/igi', '', '+17626140354', '77103 Haag Square Apt. 026\nHarrisbury, UT 23445', '', '', 'user', 'active', NULL, '7fARJjaQDV', '2023-01-23 04:44:36', '2023-01-23 04:44:36'),
-(6, 'Cathy Terry', NULL, 'lrosenbaum@example.net', '2023-01-23 04:44:36', '$2y$10$92IXUNpkjO0rOQ5byMi.Ye4oKoEa3Ro9llC/.og/at2.uheWG/igi', '', '+1-279-968-4280', '4244 Terry Forest Suite 321\nLake Camilla, DC 32714-2983', '', '', 'admin', 'inactive', NULL, 'xEfSpj5Piv', '2023-01-23 04:44:36', '2023-01-23 04:44:36'),
-(7, 'Mr. Karl Johnson I', NULL, 'toni.nolan@example.org', '2023-01-23 04:44:36', '$2y$10$92IXUNpkjO0rOQ5byMi.Ye4oKoEa3Ro9llC/.og/at2.uheWG/igi', '', '+1 (831) 920-5008', '114 Shanahan Cliffs Apt. 855\nKrystelfurt, MS 57773-5737', '', '', 'admin', 'active', NULL, 'dFsXSiuReJ', '2023-01-23 04:44:36', '2023-01-23 04:44:36'),
 (8, 'Ms. Alba Eichmann DDS', NULL, 'una.streich@example.net', '2023-01-23 04:44:36', '$2y$10$92IXUNpkjO0rOQ5byMi.Ye4oKoEa3Ro9llC/.og/at2.uheWG/igi', '202301222348logo.png', '(714) 848-6743', '5349 Schamberger Isle\nFaheyville, RI 63593', '2023', '', 'vendor', 'active', NULL, '5AUYGGG5Ze', '2023-01-23 04:44:36', '2023-01-28 02:16:23'),
-(9, 'Madelyn Beer', NULL, 'zkovacek@example.org', '2023-01-23 04:44:36', '$2y$10$92IXUNpkjO0rOQ5byMi.Ye4oKoEa3Ro9llC/.og/at2.uheWG/igi', '', '956-971-0755', '673 Hudson Locks Apt. 284\nDarronmouth, KY 36415-8682', '', '', 'admin', 'inactive', NULL, '3trqR8meB2', '2023-01-23 04:44:36', '2023-01-23 04:44:36'),
 (10, 'Maximillia Littel', NULL, 'strosin.ashlynn@example.com', '2023-01-23 04:44:36', '$2y$10$92IXUNpkjO0rOQ5byMi.Ye4oKoEa3Ro9llC/.og/at2.uheWG/igi', '', '+1 (470) 886-7180', '67798 Abshire Branch Apt. 049\nNew Jovanny, VT 46944', '', '', 'vendor', 'inactive', NULL, '1h0kkB0jEn', '2023-01-23 04:44:36', '2023-01-23 04:44:36'),
 (11, 'Mr. London Spencer', NULL, 'giovanni63@example.com', '2023-01-23 04:44:36', '$2y$10$92IXUNpkjO0rOQ5byMi.Ye4oKoEa3Ro9llC/.og/at2.uheWG/igi', '', '762-304-2710', '897 Ardith Branch Suite 466\nPort Imamouth, IL 30669', '', '', 'user', 'inactive', NULL, '6NoBIV0pwB', '2023-01-23 04:44:36', '2023-01-23 04:44:36'),
-(12, 'Nest Food Ltd', 'nestfood', 'nestfood@gmail.com', NULL, '$2y$10$Ohwwu6/DqbnIIrMpBT84nelajcDrkGoU0VVGI8diEHRfkXpm6rUl6', '202301222348logo.png', '4569852447', '897 Ardith Branch Suite 466\nPort Imamouth, IL 30669', '2023', 'good good', 'vendor', 'active', '2023-02-14 21:04:11', NULL, '2023-01-23 04:47:09', '2023-02-15 02:04:11');
+(12, 'Nest Food Ltd', 'nestfood', 'nestfood@gmail.com', NULL, '$2y$10$Ohwwu6/DqbnIIrMpBT84nelajcDrkGoU0VVGI8diEHRfkXpm6rUl6', '202301222348logo.png', '4569852447', '897 Ardith Branch Suite 466\nPort Imamouth, IL 30669', '2023', 'good good', 'vendor', 'active', '2023-02-14 21:04:11', NULL, '2023-01-23 04:47:09', '2023-02-15 02:04:11'),
+(15, 'Bhavin Shah', 'bhavin', 'bhavin@gmail.com', NULL, '$2y$10$HyQ8UTEUfFxKcNEYWDYYUexXtW5XbjGz.UkTkBcQUXlH3pjPSMQ7S', NULL, '4694347643', '4245 Cedar Bridge Walk', NULL, NULL, 'admin', 'active', NULL, NULL, '2023-02-17 22:06:45', '2023-02-17 22:10:53'),
+(16, 'multivendor', 'Multivendor', 'multivendor@gmail.com', NULL, '$2y$10$M95rMgzba26h8cZpCknZNeWHwoD/A0GCxH.XEEe.R4kcc6Aqd8Pmu', NULL, '11212322', 'morris road', NULL, NULL, 'admin', 'active', '2023-02-17 19:48:11', NULL, '2023-02-17 22:10:17', '2023-02-18 00:48:11'),
+(17, 'manek', 'manek', 'manek@gmail.com', NULL, '$2y$10$aawL.wS4wipoItC1ZgeUUuslmLchklwOd5x0Sgic6t8klAiv5RRVq', NULL, 'admin@123', 'morriad road', NULL, NULL, 'admin', 'active', NULL, NULL, '2023-02-17 22:10:46', '2023-02-17 22:10:46'),
+(22, 'Jwellery shop', 'jwellery', 'jshop@gmail.com', NULL, '$2y$10$6QhdeogcEo5YQliM4H3Br.jj1cZGyXZMEGKtnu4njebE51dPxsKAO', NULL, '1231123', NULL, '2024', NULL, 'vendor', 'active', '2023-02-17 22:31:47', NULL, NULL, '2023-02-18 03:31:47'),
+(23, 'amish', NULL, 'amish@gmail.com', NULL, '$2y$10$L2Jj/t0vp2tpo2wZ6I7skeSxR9LckRi6EZYgaVI5mHv0eU6BOu5Xe', NULL, NULL, NULL, NULL, NULL, 'user', 'active', '2023-02-17 22:29:49', NULL, '2023-02-18 02:36:28', '2023-02-18 03:29:49');
 
 -- --------------------------------------------------------
 
@@ -772,6 +1090,27 @@ ALTER TABLE `migrations`
   ADD PRIMARY KEY (`id`);
 
 --
+-- Indexes for table `model_has_permissions`
+--
+ALTER TABLE `model_has_permissions`
+  ADD PRIMARY KEY (`permission_id`,`model_id`,`model_type`),
+  ADD KEY `model_has_permissions_model_id_model_type_index` (`model_id`,`model_type`);
+
+--
+-- Indexes for table `model_has_roles`
+--
+ALTER TABLE `model_has_roles`
+  ADD PRIMARY KEY (`role_id`,`model_id`,`model_type`),
+  ADD KEY `model_has_roles_model_id_model_type_index` (`model_id`,`model_type`);
+
+--
+-- Indexes for table `notifications`
+--
+ALTER TABLE `notifications`
+  ADD PRIMARY KEY (`id`),
+  ADD KEY `notifications_notifiable_type_notifiable_id_index` (`notifiable_type`,`notifiable_id`);
+
+--
 -- Indexes for table `orders`
 --
 ALTER TABLE `orders`
@@ -789,6 +1128,13 @@ ALTER TABLE `order_items`
 --
 ALTER TABLE `password_resets`
   ADD PRIMARY KEY (`email`);
+
+--
+-- Indexes for table `permissions`
+--
+ALTER TABLE `permissions`
+  ADD PRIMARY KEY (`id`),
+  ADD UNIQUE KEY `permissions_name_guard_name_unique` (`name`,`guard_name`);
 
 --
 -- Indexes for table `personal_access_tokens`
@@ -819,6 +1165,26 @@ ALTER TABLE `reviews`
   ADD KEY `reviews_user_id_foreign` (`user_id`);
 
 --
+-- Indexes for table `roles`
+--
+ALTER TABLE `roles`
+  ADD PRIMARY KEY (`id`),
+  ADD UNIQUE KEY `roles_name_guard_name_unique` (`name`,`guard_name`);
+
+--
+-- Indexes for table `role_has_permissions`
+--
+ALTER TABLE `role_has_permissions`
+  ADD PRIMARY KEY (`permission_id`,`role_id`),
+  ADD KEY `role_has_permissions_role_id_foreign` (`role_id`);
+
+--
+-- Indexes for table `seos`
+--
+ALTER TABLE `seos`
+  ADD PRIMARY KEY (`id`);
+
+--
 -- Indexes for table `ship_districts`
 --
 ALTER TABLE `ship_districts`
@@ -834,6 +1200,12 @@ ALTER TABLE `ship_divisions`
 -- Indexes for table `ship_states`
 --
 ALTER TABLE `ship_states`
+  ADD PRIMARY KEY (`id`);
+
+--
+-- Indexes for table `site_settings`
+--
+ALTER TABLE `site_settings`
   ADD PRIMARY KEY (`id`);
 
 --
@@ -917,19 +1289,25 @@ ALTER TABLE `failed_jobs`
 -- AUTO_INCREMENT for table `migrations`
 --
 ALTER TABLE `migrations`
-  MODIFY `id` int(10) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=34;
+  MODIFY `id` int(10) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=38;
 
 --
 -- AUTO_INCREMENT for table `orders`
 --
 ALTER TABLE `orders`
-  MODIFY `id` bigint(20) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=17;
+  MODIFY `id` bigint(20) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=19;
 
 --
 -- AUTO_INCREMENT for table `order_items`
 --
 ALTER TABLE `order_items`
-  MODIFY `id` bigint(20) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=14;
+  MODIFY `id` bigint(20) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=16;
+
+--
+-- AUTO_INCREMENT for table `permissions`
+--
+ALTER TABLE `permissions`
+  MODIFY `id` bigint(20) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=94;
 
 --
 -- AUTO_INCREMENT for table `personal_access_tokens`
@@ -956,6 +1334,18 @@ ALTER TABLE `reviews`
   MODIFY `id` bigint(20) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=7;
 
 --
+-- AUTO_INCREMENT for table `roles`
+--
+ALTER TABLE `roles`
+  MODIFY `id` bigint(20) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=9;
+
+--
+-- AUTO_INCREMENT for table `seos`
+--
+ALTER TABLE `seos`
+  MODIFY `id` bigint(20) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=2;
+
+--
 -- AUTO_INCREMENT for table `ship_districts`
 --
 ALTER TABLE `ship_districts`
@@ -974,6 +1364,12 @@ ALTER TABLE `ship_states`
   MODIFY `id` bigint(20) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=10;
 
 --
+-- AUTO_INCREMENT for table `site_settings`
+--
+ALTER TABLE `site_settings`
+  MODIFY `id` bigint(20) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=2;
+
+--
 -- AUTO_INCREMENT for table `sliders`
 --
 ALTER TABLE `sliders`
@@ -989,7 +1385,7 @@ ALTER TABLE `sub_categories`
 -- AUTO_INCREMENT for table `users`
 --
 ALTER TABLE `users`
-  MODIFY `id` bigint(20) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=13;
+  MODIFY `id` bigint(20) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=24;
 
 --
 -- AUTO_INCREMENT for table `wishlists`
@@ -1000,6 +1396,18 @@ ALTER TABLE `wishlists`
 --
 -- Constraints for dumped tables
 --
+
+--
+-- Constraints for table `model_has_permissions`
+--
+ALTER TABLE `model_has_permissions`
+  ADD CONSTRAINT `model_has_permissions_permission_id_foreign` FOREIGN KEY (`permission_id`) REFERENCES `permissions` (`id`) ON DELETE CASCADE;
+
+--
+-- Constraints for table `model_has_roles`
+--
+ALTER TABLE `model_has_roles`
+  ADD CONSTRAINT `model_has_roles_role_id_foreign` FOREIGN KEY (`role_id`) REFERENCES `roles` (`id`) ON DELETE CASCADE;
 
 --
 -- Constraints for table `order_items`
@@ -1013,6 +1421,13 @@ ALTER TABLE `order_items`
 ALTER TABLE `reviews`
   ADD CONSTRAINT `reviews_product_id_foreign` FOREIGN KEY (`product_id`) REFERENCES `products` (`id`) ON DELETE CASCADE,
   ADD CONSTRAINT `reviews_user_id_foreign` FOREIGN KEY (`user_id`) REFERENCES `users` (`id`) ON DELETE CASCADE;
+
+--
+-- Constraints for table `role_has_permissions`
+--
+ALTER TABLE `role_has_permissions`
+  ADD CONSTRAINT `role_has_permissions_permission_id_foreign` FOREIGN KEY (`permission_id`) REFERENCES `permissions` (`id`) ON DELETE CASCADE,
+  ADD CONSTRAINT `role_has_permissions_role_id_foreign` FOREIGN KEY (`role_id`) REFERENCES `roles` (`id`) ON DELETE CASCADE;
 COMMIT;
 
 /*!40101 SET CHARACTER_SET_CLIENT=@OLD_CHARACTER_SET_CLIENT */;
