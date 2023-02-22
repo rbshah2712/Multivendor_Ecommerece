@@ -9,14 +9,14 @@
 
 <div id="sidebar-wrapper" data-simplebar="" data-simplebar-auto-hide="true">
     <div class="brand-logo">
-     <a href="index.html">
+     <a href="{{url('/vendor/dashboard')}}">
       <img src="{{asset('adminbackend/assets/images/logo-icon.png')}}" class="logo-icon" alt="logo icon">
       <h5 class="logo-text">Vendor</h5>
     </a>
   </div>
   <ul class="sidebar-menu do-nicescrol">
      <li>
-       <a href="index.html" class="waves-effect">
+       <a href="{{url('/vendor/dashboard')}}" class="waves-effect">
          <i class="zmdi zmdi-view-dashboard"></i> <span>Dashboard</span>
        </a>
      </li>

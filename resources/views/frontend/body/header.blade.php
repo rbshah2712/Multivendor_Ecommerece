@@ -194,7 +194,7 @@
         <div class="container">
             <div class="header-wrap header-space-between position-relative">
                 <div class="logo logo-width-1 d-block d-lg-none">
-                    <a href="index.html"><img src="{{asset('frontend/assets/imgs/theme/logo.svg')}}" alt="logo" /></a>
+                    <a href="{{url('/')}}"><img src="{{asset('frontend/assets/imgs/theme/logo.svg')}}" alt="logo" /></a>
                 </div>
                 <div class="header-nav d-none d-lg-flex">
                     <div class="main-categori-wrap d-none d-lg-block">
@@ -206,16 +206,20 @@
                             <div class="d-flex categori-dropdown-inner">
                                 <ul>
                                     @foreach ($categories as $item)
+                                    @if($loop->index < 5)
                                     <li>
-                                        <a href="shop-grid-right.html"> <img src="{{asset($item->category_image)}}" alt="{{$item->category_name}}" />{{$item->category_name}}</a>
+                                        <a href="{{url('product/category/'.$item->id.'/'.$item->category_slug)}}"> <img src="{{asset($item->category_image)}}" alt="{{$item->category_name}}" />{{$item->category_name}}</a>
                                     </li>
+                                    @endif
                                     @endforeach
                                 </ul>
                                 <ul class="end">
                                     @foreach ($categories as $item)
+                                    @if($loop->index > 4)
                                     <li>
-                                        <a href="shop-grid-right.html"> <img src="{{asset($item->category_image)}}" alt="{{$item->category_name}}" />{{$item->category_name}}</a>
+                                        <a href="{{url('product/category/'.$item->id.'/'.$item->category_slug)}}"> <img src="{{asset($item->category_image)}}" alt="{{$item->category_name}}" />{{$item->category_name}}</a>
                                     </li>
+                                    @endif
                                     @endforeach
                                 </ul>
                             </div>

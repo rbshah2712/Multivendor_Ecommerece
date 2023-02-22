@@ -9,9 +9,11 @@
             <li class="breadcrumb-item active" aria-current="page">Product</li>
          </ol>
        </div>
+       @if(Auth::user()->can('product.add'))	
        <div class="col-sm-2">
         <a href="{{route('add.product')}}" class="btn btn-primary">Add Product</a>
        </div>
+       @endif
     
      </div>
       <div class="row">
@@ -60,13 +62,13 @@
                           
                              <td>
                   
-                           {{--  @if(Auth::user()->can('product.edit'))	 --}}
+                             @if(Auth::user()->can('product.edit'))	
                 			
                              <a href="{{ route('edit.product',$item->id) }}" class="btn btn-info" title="Edit Data"> <i class="fa fa-edit"></i></a>
-                            {{-- @endif--}}
-                            {{-- @if(Auth::user()->can('product.delete'))	--}}
+                             @endif
+                             @if(Auth::user()->can('product.delete'))
                              <a href="{{ route('delete.product',$item->id) }}" class="btn btn-danger" id="delete" title="Delete Data" ><i class="fa fa-trash"></i></a>
-                           {{--  @endif--}}
+                             @endif
                              <a href="{{ route('edit.category',$item->id) }}" class="btn btn-warning" title="Details Page"><i class="fa fa-eye"></i> </a>
                              @if($item->status == 1)
                              <a href="{{ route('product.inactive',$item->id) }}" class="btn btn-primary" title="Inactive"> <i class="fa fa-thumbs-down"></i></a>
